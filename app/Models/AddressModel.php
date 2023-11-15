@@ -21,7 +21,7 @@ class AddressModel extends Model
         'address_status',
         'user_id',
         'city',
-        'zip_cod'
+        'zip_code'
     ];
 
     // Validation

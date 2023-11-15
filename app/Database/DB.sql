@@ -20,7 +20,7 @@ CREATE TABLE `user` (
 CREATE TABLE `user_address` (
   `address_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `zip_cod` int DEFAULT NULL,
+  `zip_code` int DEFAULT 0,
   `address_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `city` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `address_status` int DEFAULT '0',
