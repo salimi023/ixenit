@@ -18,6 +18,12 @@
     .asterisk {
         color: red
     }
+
+    .form-group {
+        border: solid thin #d8d8d8;
+        padding: 10px;
+        margin-bottom: 10px
+    }
     </style>
 </head>
 
@@ -43,54 +49,83 @@
             <div class="w3-container">
                 <span id="close_modal" class="w3-button w3-display-topright">&times;</span>
                 <div id="modal_title" class="w3-row w3-xlarge w3-padding"></div>
-                <div class="w3-row w3-padding"><small>A <span class="asterisk">*-al</span> jelölt mezők kitöltése kötelező!</small></div>  
+                <div class="w3-row w3-padding"><small>A <span class="asterisk">*-al</span> jelölt mezők kitöltése
+                        kötelező!</small></div>
                 <div id="modal_content" class="w3-row w3-padding">
                     <form>
-                        <div class="w3-margin-bottom">
-                            <label for="last_name">Vezetéknév<span class="asterisk">*</span></label>
-                            <input type="text" class="w3-input w3-border" name="last_name" required />
+                        <div class="w3-row form-group">
+                            <h3>Név</h3>
+                            <div class="w3-margin-bottom">
+                                <label for="last_name">Vezetéknév<span class="asterisk">*</span></label>
+                                <input type="text" class="w3-input w3-border" name="last_name" required />
+                            </div>
+                            <div class="w3-margin-bottom">
+                                <label for="first_name">Keresztnév<span class="asterisk">*</span></label>
+                                <input type="text" class="w3-input w3-border" name="first_name" required />
+                            </div>
                         </div>
-                        <div class="w3-margin-bottom">
-                            <label for="first_name">Keresztnév<span class="asterisk">*</span></label>
-                            <input type="text" class="w3-input w3-border" name="first_name" required />
+                        <div class="w3-row form-group">
+                            <div class="w3-margin-bottom">
+                                <h3>Állandó lakcím</h3>
+                                <label for="zip_code">Irányítószám<span class="asterisk">*</span></label>
+                                <input class="w3-input w3-border" name="zip_code" type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="4" required />
+                            </div>
+                            <div class="w3-margin-bottom">
+                                <label for="address">Cím<span class="asterisk">*</span></label>
+                                <input class="w3-input w3-border" type="text" name="address" required />
+                            </div>
+                            <div class="w3-margin-bottom">
+                                <label for="city">Város<span class="asterisk">*</span></label>
+                                <input class="w3-input w3-border" type="text" name="city" required />
+                            </div>
                         </div>
-                        <div class="w3-margin-bottom">
-                            <label for="zip_code">Irányítószám<span class="asterisk">*</span></label>
-                            <input class="w3-input w3-border" name="zip_code" type="text"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="4" required />
+                        <div class="w3-row form-group">
+                            <div class="w3-margin-bottom">
+                                <h3>Ideiglenes lakcím</h3>
+                                <label for="temp_zip_code">Irányítószám</label>
+                                <input class="w3-input w3-border" name="temp_zip_code" type="text"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="4" />
+                            </div>
+                            <div class="w3-margin-bottom">
+                                <label for="temp_address">Cím</label>
+                                <input class="w3-input w3-border" type="text" name="temp_address" />
+                            </div>
+                            <div class="w3-margin-bottom">
+                                <label for="temp_city">Város</label>
+                                <input class="w3-input w3-border" type="text" name="temp_city" />
+                            </div>
                         </div>
-                        <div class="w3-margin-bottom">
-                            <label for="address">Cím<span class="asterisk">*</span></label>
-                            <input class="w3-input w3-border" type="text" name="address" required />
-                        </div>
-                        <div class="w3-margin-bottom">
-                            <label for="city">Város<span class="asterisk">*</span></label>
-                            <input class="w3-input w3-border" type="text" name="city" required />
-                        </div>
-                        <div id="phone" class="w3-margin-bottom">
-                            <h4>Telefon<span class="asterisk">*</span></h4>
-                            <div id="phone_numbers" class="w3-margin-bottom">
-                                <div class="w3-row">
-                                    <div class="w3-twothird">
-                                        <input class="w3-input w3-border" name="phone_number" type="text"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="11" required />
+                        <div class="w3-row form-group">
+                            <div id="phone" class="w3-margin-bottom">
+                                <h4>Telefon<span class="asterisk">*</span></h4>
+                                <div id="phone_numbers" class="w3-margin-bottom">
+                                    <div class="w3-row">
+                                        <div class="w3-twothird">
+                                            <input class="w3-input w3-border" name="phone_number" type="text"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="11"
+                                                required />
+                                        </div>
                                     </div>
                                 </div>
+                                <button class="w3-btn w3-blue w3-round" id="add_phone_number">Új telefonszám</button>
                             </div>
-                            <button class="w3-btn w3-blue w3-round" id="add_phone_number">Új telefonszám</button>
                         </div>
-                        <div id="emails_container" class="w3-margin-bottom">
-                            <h4>E-mail<span class="asterisk">*</span></h4>
-                            <div id="emails" class="w3-margin-bottom">
-                                <div class="w3-row">
-                                    <div class="w3-twothird">
-                                        <input class="w3-input w3-border" name="email" type="email" required />
+                        <div class="w3-row form-group">
+                            <div id="emails_container" class="w3-margin-bottom">
+                                <h4>E-mail<span class="asterisk">*</span></h4>
+                                <div id="emails" class="w3-margin-bottom">
+                                    <div class="w3-row">
+                                        <div class="w3-twothird">
+                                            <input class="w3-input w3-border" name="email" type="email" required />
+                                        </div>
                                     </div>
                                 </div>
+                                <button class="w3-btn w3-blue w3-round" id="add_email">Új e-mail</button>
                             </div>
-                            <button class="w3-btn w3-blue w3-round" id="add_email">Új e-mail</button>
                         </div>
-                        <input type="submit" class="w3-btn w3-green w3-round w3-margin-top w3-margin-bottom" name="save_user" id="save_user" value="Mentés" />
+                        <input type="submit" class="w3-btn w3-green w3-round w3-margin-top w3-margin-bottom"
+                            name="save_user" id="save_user" value="Mentés" />
                     </form>
                 </div>
             </div>
