@@ -3,7 +3,8 @@
  */
 $(document).ready(function() {
     $(document).on("click", "input#save_user", function(e) {
-        e.preventDefault();                                       
+        e.preventDefault(); 
+        var base_url = $("span#base_url").text();                                      
         
         // Name
         var first_name = $("input#first_name").val();
@@ -83,7 +84,16 @@ $(document).ready(function() {
 
             var customer_data_json = JSON.stringify(customer_data);
 
-            console.log(customer_data_json);
+            // Ajax
+            $.ajax({
+                url: base_url + "public/index.php/home/add_user",
+                type: "POST",
+                data: {user: customer_data_json},
+                dataType: "html",
+                success: function(response) {
+                    alert(response);
+                }            
+            });
         }               
     });    
 });
