@@ -17,8 +17,8 @@ class UserModel extends Model
     // Columns
     protected $allowedFields = [
         'user_id',
-        'first_name',
-        'last_name'
+        'firstname',
+        'lastname'
     ];
 
     // Validation
