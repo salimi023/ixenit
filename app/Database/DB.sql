@@ -20,10 +20,12 @@ CREATE TABLE `user` (
 CREATE TABLE `user_address` (
   `address_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `zip_code` int DEFAULT 0,
-  `address_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `city` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `address_status` int DEFAULT '0',
+  `zip_code` int NOT NULL,
+  `address_line` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,  
+  `temp_zip_code` int DEFAULT 0,
+  `temp_address_line` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `temp_city` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,  
   PRIMARY KEY (`address_id`),
   UNIQUE KEY `user_id` (`user_id`),
   CONSTRAINT `user_address_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
@@ -34,7 +36,6 @@ CREATE TABLE `user_contact` (
   `user_id` int NOT NULL,
   `contact_data` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `contact_type` int DEFAULT '0',
-  PRIMARY KEY (`contact_id`),
-  UNIQUE KEY `user_id` (`user_id`),
+  PRIMARY KEY (`contact_id`),  
   CONSTRAINT `user_contact_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
