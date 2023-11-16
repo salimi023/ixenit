@@ -58,16 +58,11 @@ $(document).ready(function() {
         var emails = [];
 
         $("input[name='email']").each(function() {
-            var email = $(this).val();            
-
-            if(validate_email(email)) {
+            var email = $(this).val(); 
+            
+            if(email !== '') {
                 emails.push(email);
-            } else {
-                if(email !== '') {
-                    alert("Kérem, adjon meg egy érvényes e-mail címet, vagy törölje a fölösleges mezőt!");
-                    $("span#validationStatus").text("Error");
-                }                
-            }
+            }            
         });                                                               
 
         if($("span#validationStatus").text() === '') {
@@ -93,13 +88,7 @@ $(document).ready(function() {
     });    
 });
 
-// Checking zip_code datatype
+// Validate integer datatype
 function validate_digits(code) {
     return /^\d+$/.test(code);
 }
-
-// Validate email
-function validate_email(email) {
-    var rem = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return rem.test(email);
-} 
