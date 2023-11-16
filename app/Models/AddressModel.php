@@ -17,11 +17,13 @@ class AddressModel extends Model
     // Columns
     protected $allowedFields = [
         'address_id',
-        'address_line',
-        'address_status',
         'user_id',
+        'address_line',                
         'city',
-        'zip_code'
+        'zip_code',
+        'temp_address_line',                
+        'temp_city',
+        'temp_zip_code'
     ];
 
     // Validation
