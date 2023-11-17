@@ -91,7 +91,13 @@ $(document).ready(function() {
                 data: {user: customer_data_json},
                 dataType: "html",
                 success: function(response) {
-                    alert(response);
+                    if(response === 'success') {
+                        alert('Sikeres mentés.');
+                        location.reload();
+                    } else {
+                        alert(response);
+                        return;
+                    }                                       
                 }            
             });
         }               
