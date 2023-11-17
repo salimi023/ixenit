@@ -40,22 +40,49 @@
                 <button id="delete_user" class="w3-btn w3-red w3-round w3-margin-top w3-right">Felhasználó
                     törlése</button>
             </div>
-            <div id="table_container" class="w3-container">
+            <div id="table_container" class="w3-container w3-margin-top">
+                <?php
+                if(!empty($users)) { ?>
+                <table id="users_table" class="display">
+                    <thead>
+                        <tr>
+                            <th>Törlés</th>
+                            <th>Név</th>
+                            <th>Megtekintés</th>
+                            <th>Módosítás</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php                                                                       
+                        foreach($users as $user) {
+                            $name = $user['lastname'] . ' ' . $user['firstname'];
+                            echo "<tr data-id=\"{$user['user_id']}\">                            
+                            <td><input type=\"checkbox\" class=\"w3-check\" name=\"delete_user\" data-id=\"{$user['user_id']}\" /></td>
+                            <td>{$name}</td>
+                            <td><button class=\"w3-btn w3-orange w3-round view_user\" data-id=\"{$user['user_id']}\">Megtekintés</button></td>
+                            <td><button class=\"w3-btn w3-blue w3-round update_user\" data-id=\"{$user['user_id']}\">Módosítás</button></td>";
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+                <?php } else { ?>
                 <div id="status_msg" class="w3-panel w3-red w3-round w3-card-4 w3-padding w3-large">Jelenleg nincs
                     mentett felhasználó!</div>
+                <?php } ?>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add User Modal -->
     <div id="user_modal" class="w3-modal">
         <div class="w3-modal-content w3-animate-opacity">
             <div class="w3-container">
                 <span id="close_modal" class="w3-button w3-display-topright">&times;</span>
                 <div id="modal_title" class="w3-row w3-xlarge w3-padding"></div>
-                <div class="w3-row w3-padding"><small>A <span class="asterisk">*-al</span> jelölt mezők kitöltése
-                        kötelező!</small></div>
                 <div id="modal_content" class="w3-row w3-padding">
+                    <div class="w3-row w3-padding"><small>A <span class="asterisk">*-al</span> jelölt mezők kitöltése
+                            kötelező!</small></div>
                     <span id="validationStatus" class="w3-hide"></span>
                     <span id="base_url" class="w3-hide"><?php echo base_url(); ?></span>
                     <form>
@@ -95,7 +122,8 @@
                         <div class="w3-row form-group">
                             <div class="w3-margin-bottom">
                                 <h3>Ideiglenes lakcím</h3>
-                                <label for="temp_zip_code">Irányítószám<span class="asterisk temp_title w3-hide">*</span></label>
+                                <label for="temp_zip_code">Irányítószám<span
+                                        class="asterisk temp_title w3-hide">*</span></label>
                                 <input class="w3-input w3-border temp" id="temp_zip_code" name="temp_zip_code"
                                     type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                     maxlength="4" />
@@ -155,12 +183,21 @@
     <script src="<?php echo base_url(); ?>app/Libraries/jquery.js"></script>
     <!-- DataTables -->
     <script src="<?php echo base_url(); ?>app/Libraries/datatables/datatables.min.js"></script>
+    <script>
+    $("#users_table").DataTable({
+        language: {
+            url: $("span#base_url").text() + 'app/Libraries/datatables/HU_hu.json'
+        }
+    });
+    </script>
     <!-- Validation -->
     <script src="<?php echo base_url(); ?>app/JS/validation.js"></script>
     <!-- Modal -->
     <script src="<?php echo base_url(); ?>app/JS/modal.js"></script>
     <!-- Add User -->
     <script src="<?php echo base_url(); ?>app/JS/add_user.js"></script>
+    <!-- View User -->
+    <script src="<?php echo base_url(); ?>app/JS/view_user.js"></script>
 </body>
 
 </html>
