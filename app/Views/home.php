@@ -147,7 +147,7 @@
                                 <div id="phone_numbers" class="w3-margin-bottom">
                                     <div class="w3-row">
                                         <div class="w3-twothird">
-                                            <input class="w3-input w3-border valid" name="phone_number" type="text"
+                                            <input class="w3-input w3-border valid" id="" name="phone_number" type="text"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                                                 maxlength="11" />
                                             <span class="alert"></span>
@@ -163,7 +163,7 @@
                                 <div id="emails" class="w3-margin-bottom">
                                     <div class="w3-row">
                                         <div class="w3-twothird">
-                                            <input class="w3-input w3-border valid" name="email" type="email" />
+                                            <input class="w3-input w3-border valid" id="" name="email" type="email" />
                                             <span class="alert"></span>
                                         </div>
                                     </div>
@@ -198,6 +198,8 @@
     <script src="<?php echo base_url(); ?>app/JS/add_user.js"></script>
     <!-- View User -->
     <script src="<?php echo base_url(); ?>app/JS/view_user.js"></script>
+    <!-- Update User -->
+    <script src="<?php echo base_url(); ?>app/JS/update_user.js"></script>
 </body>
 
 </html>
