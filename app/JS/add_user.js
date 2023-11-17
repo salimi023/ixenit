@@ -2,9 +2,10 @@
  * Add User
  */
 $(document).ready(function() {
-    $(document).on("click", "input#save_user", function(e) {
+    $(document).on("click", "input#save_user, input#update_user", function(e) {
         e.preventDefault(); 
-        var base_url = $("span#base_url").text();                                      
+        var base_url = $("span#base_url").text();
+        var action = $(this).prop('id') === 'save_user' ? 'save' : 'update';                                      
         
         // Name
         var first_name = $("input#first_name").val();
@@ -82,11 +83,13 @@ $(document).ready(function() {
                 email: emails            
             }
 
-            var customer_data_json = JSON.stringify(customer_data);
+            var customer_data_json = JSON.stringify(customer_data);            
 
             // Ajax
+            var ajax_url = action === 'save' ? base_url + "public/index.php/home/add_user" : base_url + "public/index.php/home/update_user"
+
             $.ajax({
-                url: base_url + "public/index.php/home/add_user",
+                url: ajax_url,
                 type: "POST",
                 data: {user: customer_data_json},
                 dataType: "html",
@@ -94,6 +97,8 @@ $(document).ready(function() {
                     if(response === 'success') {
                         alert('Sikeres mentés.');
                         location.reload();
+                    } else if(response === 'Okay') {
+                        alert('Sikeres frissítés');
                     } else {
                         alert(response);
                         return;
