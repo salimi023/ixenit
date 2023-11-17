@@ -16,8 +16,7 @@ $(document).ready(function() {
             dataType: "html",
             success: function(response) {
                 if(response !== 'user_id_error') {
-                    var user_data = JSON.parse(response);
-                    console.log(user_data);
+                    var user_data = JSON.parse(response);                    
                     
                     var html = '';
                     html += '<div class="w3-row w3-padding">';                    
