@@ -11,7 +11,7 @@ $(document).ready(function() {
         var html = '';
         html += '<div class="w3-row w3-margin-top number_container">';
         html += '<div class="w3-twothird">';
-        html += '<input class="w3-input w3-border valid" name="phone_number" type="text" maxlength="11" />';
+        html += '<input class="w3-input w3-border valid" id="" name="phone_number" type="text" maxlength="11" />';
         html += '<span class="alert"></span>';
         html += '</div>';
         html += '<div class="w3-rest"><button class="w3-btn w3-red w3-round w3-margin-left delete_phone_number">Törlés</button></div>';
@@ -37,7 +37,7 @@ $(document).ready(function() {
         var html = '';
         html += '<div class="w3-row w3-margin-top email_container">';
         html += '<div class="w3-twothird">';
-        html += '<input class="w3-input w3-border valid" name="email" type="email" />';
+        html += '<input class="w3-input w3-border valid" id="" name="email" type="email" />';
         html += '<span class="alert"></span>';
         html += '</div>';
         html += '<div class="w3-rest"><button class="w3-btn w3-red w3-round w3-margin-left delete_email">Törlés</button></div>';
@@ -73,5 +73,6 @@ $(document).ready(function() {
     // Close modal
     $("span#close_modal").on("click", function() {
         $("div#user_modal").css("display", "none");
+        location.reload();
     });
 });
