@@ -142,44 +142,46 @@ class Home extends BaseController
                 echo self::SAVE_SUCCESS;                 
             }                                                      
         }
-    }
+    }    
 
-    // View User
-    public function view_user() 
+    // Update User
+    public function update_user()
     {
         if(isset($_POST)) {
-            $user_id = $_POST['id'];            
-
-            if(!empty($user_id)) {                                                                                         
-                echo json_encode($this->get_user_by_id($user_id));                                                                    
-            } else {
-                echo 'user_id_error';
-            }
+            echo 'Okay';
         }
     }
 
     // Get user data by id
-    private function get_user_by_id($user_id)
+    public function get_user_by_id()
     {
-        $user_data = [];
+        if(isset($_POST)) {
+            $user_id = $_POST['id'];            
+            
+            if(!empty($user_id)) {
+                $user_data = [];
 
-        // Name
-        $name_data = $this->user_model->where('user_id', $user_id)->findAll();
-        $user_data['name'] = $name_data[0]['lastname'] . ' ' . $name_data[0]['firstname'];
+                // Name
+                $name_data = $this->user_model->where('user_id', $user_id)->findAll();        
+                $user_data['name'] = $name_data[0];
 
-        // Address
-        $address_data = $this->user_address_model->where('user_id', $user_id)->findAll();
-        $user_data['address'] = $address_data[0];
-                
-        // Phone numbers
-        $phone_numbers = $this->user_contact_model->where(['user_id' => $user_id, 'contact_type' => 1])->findAll();
-        $user_data['phone'] = $phone_numbers;
+                // Address
+                $address_data = $this->user_address_model->where('user_id', $user_id)->findAll();
+                $user_data['address'] = $address_data[0];
+                        
+                // Phone numbers
+                $phone_numbers = $this->user_contact_model->where(['user_id' => $user_id, 'contact_type' => 1])->findAll();
+                $user_data['phone'] = $phone_numbers;
 
-        // Emails
-        $emails = $this->user_contact_model->where(['user_id' => $user_id, 'contact_type' => 2])->findAll();
-        $user_data['email'] = $emails;                
-                                            
-        return $user_data;
+                // Emails
+                $emails = $this->user_contact_model->where(['user_id' => $user_id, 'contact_type' => 2])->findAll();
+                $user_data['email'] = $emails;                
+                                                    
+                echo json_encode($user_data);
+            } else {
+                echo 'user_id_error';
+            }
+        }
     }
 
     // Error handling
