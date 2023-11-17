@@ -2,11 +2,11 @@
  * View User
  */
 $(document).ready(function() {
-    $(document).on("click", "button.view_user", function() {
+    $(document).on("click", "button.view_user", function(e) {
         $("div#modal_content").html('');
         $("div#modal_title").text("Felhasználó megtekintése");
 
-        var user_id = $(this).data("id");
+        var user_id = $(e.target).data("id");
         var base_url = $("span#base_url").text();
         
         $.ajax({
@@ -20,7 +20,7 @@ $(document).ready(function() {
                     
                     var html = '';
                     html += '<div class="w3-row w3-padding">';                    
-                    html += '<p><strong>Név:</strong> ' + user_data.name + '</p>';
+                    html += '<p><strong>Név:</strong> ' + user_data.name.lastname + ' ' + user_data.name.firstname + '</p>';
                     html += '<p><strong>Állandó lakcím:</strong></p>';
                     html += user_data.address.city + '<br />';
                     html += user_data.address.address_line + ' ' + user_data.address.zip_code + '<br />';
