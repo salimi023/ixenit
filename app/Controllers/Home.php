@@ -16,6 +16,8 @@ class Home extends BaseController
     const TEMP_ZIP_CODE_ERROR = 'Az ideiglenes lakcím irányítószáma nem megfelelő. Kérem, ellenőrizze.';
     const SAVE_SUCCESS = 'success';
     const SAVE_ERROR = 'Sikertelen mentés.';
+    const UPDATE_SUCCESS = 'Okay';
+    const UPDATE_ERROR = 'Sikertelen frissítés.';
     
     // DB Models
     private $user_model = false;
@@ -148,7 +150,89 @@ class Home extends BaseController
     public function update_user()
     {
         if(isset($_POST)) {
-            echo 'Okay';
+            $user_data = json_decode($_POST['user'], true);
+
+            $user_id = $user_data['user_id'];
+
+            /** Starting transaction */            
+            $this->db->transStart();
+
+            // Name
+            $name = [
+                'firstname' => $user_data['first_name'],
+                'lastname' => $user_data['last_name']
+            ];
+
+            $update_name = $this->user_model->whereIn('user_id', [$user_id])->set($name)->update();
+            $this->errors($update_name, 'name');
+
+            // Address
+
+            // Validating ZIP codes
+            if(filter_var($user_data['zip_code'], FILTER_VALIDATE_INT) === false) {
+                $this->errors(false, 'zip_code');
+            }
+            
+            if((!empty($user_data['temp_zip_code'])) && (filter_var($user_data['temp_zip_code'], FILTER_VALIDATE_INT) === false)) {
+                $this->errors(false, 'temp_zip_code');
+            }
+
+            $address = [
+                'zip_code' => $user_data['zip_code'],
+                'address_line' => $user_data['address'],
+                'city' => $user_data['city'],
+                'temp_zip_code' => $user_data['temp_zip_code'],
+                'temp_address_line' => $user_data['temp_address'],
+                'temp_city' => $user_data['temp_city']
+            ];
+
+            $update_address = $this->user_address_model->whereIn('user_id', [$user_id])->set($address)->update();
+            $this->errors($update_address, 'address');
+
+            /** Contact */                      
+            $this->user_contact_model->where('user_id', $user_id)->delete();
+
+            // Phone            
+            foreach($user_data['phone'] as $phone_number) {
+                if(filter_var($phone_number, FILTER_VALIDATE_INT)) {
+                    $phone_data = [
+                        'user_id' => $user_id,
+                        'contact_data' => $phone_number,
+                        'contact_type' => 1
+                    ];
+
+                    $update_phone = $this->user_contact_model->insert($phone_data, false);
+                    $this->errors($update_phone, 'phone');
+                } else {
+                    $this->errors(false, 'phone');
+                }         
+            }
+
+            // Email
+            foreach($user_data['email'] as $email) {
+                $email_sanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+                if(filter_var($email_sanitized, FILTER_VALIDATE_EMAIL)) {
+                    $email_data = [
+                        'user_id' => $user_id,
+                        'contact_data' => $email,
+                        'contact_type' => 2
+                    ];
+
+                    $update_email = $this->user_contact_model->insert($email_data, false);
+                    $this->errors($update_email, 'email');
+                }
+            }
+
+            /** Completing transaction */            
+            $this->db->transComplete();
+
+            /** Returning result */            
+            if ($this->db->transStatus() === false) {
+                $this->errors($this->db->transStatus(), 'transaction');
+            } else {
+                echo self::UPDATE_SUCCESS;                 
+            }                                                 
         }
     }
 
