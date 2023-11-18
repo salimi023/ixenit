@@ -83,6 +83,10 @@ $(document).ready(function() {
                 email: emails            
             }
 
+            if(action === "update") {
+                customer_data.user_id = $("span#update_user_id").text();
+            }
+
             var customer_data_json = JSON.stringify(customer_data);            
 
             // Ajax
@@ -98,8 +102,9 @@ $(document).ready(function() {
                         alert('Sikeres mentés.');
                         location.reload();
                     } else if(response === 'Okay') {
-                        alert('Sikeres frissítés');
-                    } else {
+                        alert("Sikeres frissítés!");
+                        location.reload();
+                    } else {                        
                         alert(response);
                         return;
                     }                                       
