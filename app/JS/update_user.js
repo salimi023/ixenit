@@ -12,8 +12,7 @@ $(document).ready(function() {
             type: "POST",
             data: {id: user_id},
             dataType: "html",
-            success: function(response) {
-                console.log(JSON.parse(response));
+            success: function(response) {                
                 var user_data = JSON.parse(response);
 
                 if(response !== 'user_id_error') {
@@ -75,6 +74,9 @@ $(document).ready(function() {
                         }
                     }
 
+                    // User ID
+                    $("span#update_user_id").text(user_id);
+                    
                     // Update button
                     $("input.send").prop({name: 'update_user', id: 'update_user', value: 'Frissítés'});
 
