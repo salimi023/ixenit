@@ -85,6 +85,7 @@
                             kötelező!</small></div>
                     <span id="validationStatus" class="w3-hide"></span>
                     <span id="base_url" class="w3-hide"><?php echo base_url(); ?></span>
+                    <span id="update_user_id" class="w3-hide"></span>
                     <form>
                         <div class="w3-row form-group">
                             <h3>Név</h3>
