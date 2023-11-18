@@ -8,16 +8,22 @@ use Psr\Log\LoggerInterface;
 
 class Home extends BaseController
 {
-    const SAVE_NAME_ERROR = 'Sajnos nem sikerült elmenteni a nevet. Kérem, próbálja meg újra!';
-    const SAVE_ADDRESS_ERROR = 'Sajnos nem sikerült elmenteni a címet. Kérem, próbálja meg újra!';
-    const SAVE_PHONE_ERROR = 'Sajnos nem sikerült elmenteni a telefonszámot. Kérem, próbálja meg újra!';
-    const SAVE_EMAIL_ERROR = 'Sajnos nem sikerült elmenteni az e-mail címet. Kérem, próbálja meg újra!';
+    // Status Messages
+    const SAVE_NAME_ERROR = 'Sajnos, nem sikerült elmenteni a nevet. Kérem, próbálja meg újra!';
+    const SAVE_ADDRESS_ERROR = 'Sajnos, nem sikerült elmenteni a címet. Kérem, próbálja meg újra!';
+    const SAVE_PHONE_ERROR = 'Sajnos, nem sikerült elmenteni a telefonszámot. Kérem, próbálja meg újra!';
+    const SAVE_EMAIL_ERROR = 'Sajnos, nem sikerült elmenteni az e-mail címet. Kérem, próbálja meg újra!';
     const ZIP_CODE_ERROR = 'Az állandó lakcím irányítószáma nem megfelelő. Kérem, ellenőrizze.';
     const TEMP_ZIP_CODE_ERROR = 'Az ideiglenes lakcím irányítószáma nem megfelelő. Kérem, ellenőrizze.';
     const SAVE_SUCCESS = 'success';
     const SAVE_ERROR = 'Sikertelen mentés.';
     const UPDATE_SUCCESS = 'Okay';
     const UPDATE_ERROR = 'Sikertelen frissítés.';
+    const DELETE_CONTACT_ERROR = 'Sajnos, nem sikerült törölni a kapcsolati adatokat. Kérem, próbálja meg újra!';
+    const DELETE_ADDRESS_ERROR = 'Sajnos, nem sikerült törölni a cím adatokat. Kérem, próbálja meg újra!';
+    const DELETE_NAME_ERROR = 'Sajnos, nem sikerült törölni a nevet. Kérem, próbálja meg újra!';
+    const DELETE_SUCCESS = 'Sikeres törlés.';
+    const DELETE_ERROR = 'Sikertelen törlés.';
     
     // DB Models
     private $user_model = false;
@@ -236,6 +242,46 @@ class Home extends BaseController
         }
     }
 
+    // Delete User
+    public function delete_user()
+    {
+        if(isset($_POST)) {
+            $user_ids = json_decode($_POST['ids'], true);
+
+            if(count($user_ids) > 0) {
+                
+                foreach($user_ids as $id) {
+
+                    /** Starting transaction */            
+                    $this->db->transStart();
+
+                    // Removal of contact data
+                    $delete_contact = $this->user_contact_model->where('user_id', $id)->delete();
+                    $this->errors($delete_contact, 'delete_contact');
+
+                    // Removal of address data
+                    $delete_address = $this->user_address_model->where('user_id', $id)->delete();
+                    $this->errors($delete_address, 'delete_address');
+
+                    // Removal of name
+                    $delete_name = $this->user_model->where('user_id', $id)->delete();
+                    $this->errors($delete_name, 'delete_name');
+
+                    /** Completing transaction */            
+                    $this->db->transComplete();
+
+                    /** Returning result */            
+                    if ($this->db->transStatus() === false) {
+                        $this->errors($this->db->transStatus(), 'delete_transaction');
+                    }                                                                                  
+                }
+                echo self::DELETE_SUCCESS;
+            } else {
+                echo 'Kérem, jelöljön ki legalább egy felhasználót!';
+            }
+        }
+    }
+
     // Get user data by id
     public function get_user_by_id()
     {
@@ -278,7 +324,11 @@ class Home extends BaseController
             'address' => self::SAVE_ADDRESS_ERROR,
             'phone' => self::SAVE_PHONE_ERROR,
             'email' => self::SAVE_EMAIL_ERROR,
-            'transaction' => self::SAVE_ERROR 
+            'transaction' => self::SAVE_ERROR,
+            'delete_name' => self::DELETE_NAME_ERROR,
+            'delete_contact' => self::DELETE_CONTACT_ERROR,
+            'delete_address' => self::DELETE_ADDRESS_ERROR,
+            'delete_transcaction' => self::DELETE_ERROR 
         };        
 
         if($result === false) {
