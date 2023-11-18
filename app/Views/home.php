@@ -200,7 +200,9 @@
     <!-- View User -->
     <script src="<?php echo base_url(); ?>app/JS/view_user.js"></script>
     <!-- Update User -->
-    <script src="<?php echo base_url(); ?>app/JS/update_user.js"></script>
+    <script src="<?php echo base_url(); ?>app/JS/update_user.js"></script>    
+    <!-- Delete User -->
+    <script src="<?php echo base_url(); ?>app/JS/delete_user.js"></script>
 </body>
 
 </html>
