@@ -45,9 +45,14 @@ class Home extends BaseController
         $this->user_address_model = new \App\Models\AddressModel;
         $this->user_contact_model = new \App\Models\ContactModel;
         $this->db = \Config\Database::connect('default');
-    }
+    }    
     
-    // Homepage
+    /**
+     * Homepage 
+     * Buttons of adding, viewing, updating and removing users
+     * Table of users 
+     * @return NULL
+     */
     public function index(): string
     {               
         // List of saved users        
@@ -60,8 +65,12 @@ class Home extends BaseController
         
         return view('home', $users_data);
     }
-
-    // Add User
+    
+    /**
+     * Saving new user into database      
+     * Endpoint: $baseurl/public/index.php/home/add_user (JS file: add_user.js) 
+     * @return Status string 
+     */
     public function add_user() 
     {                                                 
         if(isset($_POST)) {
@@ -151,8 +160,12 @@ class Home extends BaseController
             }                                                      
         }
     }    
-
-    // Update User
+    
+    /**
+     * Updating user into database      
+     * Endpoint: $baseurl/public/index.php/home/update_user (JS file: add_user.js) 
+     * @return Status string 
+     */
     public function update_user()
     {
         if(isset($_POST)) {
@@ -241,8 +254,12 @@ class Home extends BaseController
             }                                                 
         }
     }
-
-    // Delete User
+    
+    /**
+     * Removing user from database      
+     * Endpoint: $baseurl/public/index.php/home/delete_user 
+     * @return Status string 
+     */
     public function delete_user()
     {
         if(isset($_POST)) {
@@ -282,7 +299,13 @@ class Home extends BaseController
         }
     }
 
-    // Get user data by id
+    /**
+     * Pulling user data from database by user Id      
+     * Endpoints: 
+     * $baseurl/public/index.php/home/view_user (JS file: view_user.js)
+     * $baseurl/public/index.php/home/get_update_user (JS file: update_user.js) 
+     * @return JSON  
+     */
     public function get_user_by_id()
     {
         if(isset($_POST)) {
@@ -313,8 +336,13 @@ class Home extends BaseController
             }
         }
     }
-
-    // Error handling
+        
+    /**
+     * Handling error messages      
+     * @param boolean $result Result of database action 
+     * @param string $keyword Keyword of database action       
+     * @return Status string  
+     */
     private function errors($result, $keyword) 
     {        
         $message = match($keyword) {
